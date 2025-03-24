@@ -1,16 +1,32 @@
 package com.spring.aiwebapp.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.ai.chat.model.StreamingChatModel;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 
 @Service
-@RequiredArgsConstructor
 public class ChatService {
-    private final StreamingChatModel chatModel;
+    private final ChatModel chatModel;
 
-    public Flux<String> getResponse (String prompt) {
-        return chatModel.stream(prompt);
+    public ChatService(ChatModel chatModel) {
+        this.chatModel = chatModel;
+    }
+
+    public String getResponse (String prompt) {
+        return chatModel.call(prompt);
+    }
+
+    public String getResponseOptions (String prompt) {
+        ChatResponse response = chatModel.call(
+                new Prompt(
+                        prompt,
+                        OpenAiChatOptions.builder()
+                                .model("gpt-4o")
+                                .temperature(0.4)
+                                .build()
+                ));
+        return response.getResult().getOutput().getText();
     }
 }
