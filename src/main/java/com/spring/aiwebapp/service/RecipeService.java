@@ -17,18 +17,21 @@ public class RecipeService {
 
     public String createRecipe(String ingredients,
                                String cuisine,
-                               String dietaryRestrictions) {
+                               String dietaryRestrictions,
+                               String language) {
         var template = """
                 I want to create a recipe using the following ingredients: {ingredients}.
                 The cuisine type I prefer is {cuisine}.
                 Please consider the following dietary restrictions: {dietaryRestrictions}.
                 Please provide me with a detailed recipe including title, list of ingredients, and cooking instructions.
+                Please answer me in {language} language.
                 """;
         PromptTemplate promptTemplate = new PromptTemplate(template);
         Map<String, Object> params = Map.of(
                 "ingredients", ingredients,
                 "cuisine", cuisine,
-                "dietaryRestrictions", dietaryRestrictions
+                "dietaryRestrictions", dietaryRestrictions,
+                "language", language
         );
         Prompt prompt = promptTemplate.create(params);
         return chatModel.call(prompt).getResult().getOutput().getText();

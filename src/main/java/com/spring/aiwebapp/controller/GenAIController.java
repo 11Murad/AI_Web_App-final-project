@@ -44,9 +44,10 @@ public class GenAIController {
 
     @GetMapping("/recipe-creator")
     public String createRecipe (@RequestParam String ingredients,
-                                      @RequestParam() String cuisine,
-                                      @RequestParam String dietaryRestrictions) {
-        return recipeService.createRecipe(ingredients, cuisine, dietaryRestrictions);
+                                @RequestParam(defaultValue = "any" ) String cuisine,
+                                @RequestParam(defaultValue = "") String dietaryRestrictions,
+                                @RequestParam(defaultValue = "english") String language) {
+        return recipeService.createRecipe(ingredients, cuisine, dietaryRestrictions, language);
 
     }
 
