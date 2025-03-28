@@ -4,12 +4,12 @@ import com.spring.aiwebapp.service.ChatService;
 import com.spring.aiwebapp.service.ImageService;
 import com.spring.aiwebapp.service.RecipeService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.ai.image.ImageResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/app")
@@ -34,11 +34,17 @@ public class GenAIController {
         return chatService.getResponseOptions(prompt);
     }
 
+//    @GetMapping("/generate-image")
+//    public void generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
+//        ImageResponse imageResponse = imageService.generateImage(prompt);
+//        String url = imageResponse.getResult().getOutput().getUrl();
+//        response.sendRedirect(url);
+//    }
+
     @GetMapping("/generate-image")
-    public void generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
-        ImageResponse imageResponse = imageService.generateImage(prompt);
-        String url = imageResponse.getResult().getOutput().getUrl();
-        response.sendRedirect(url);
+    public List<String> generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
+        List<String> imageUrls = imageService.generateImageByOptions(prompt);
+        return imageUrls;
     }
 
 

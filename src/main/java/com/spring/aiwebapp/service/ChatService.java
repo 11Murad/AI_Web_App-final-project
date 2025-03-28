@@ -12,6 +12,7 @@ public class ChatService {
 
     public ChatService(ChatModel chatModel) {
         this.chatModel = chatModel;
+
     }
 
     public String getResponse (String prompt) {
@@ -27,6 +28,7 @@ public class ChatService {
                                 .temperature(0.4)
                                 .build()
                 ));
-        return response.getResult().getOutput().getText();
+        String savedResponse = response.getResult().getOutput().getText();
+        return savedResponse;
     }
 }

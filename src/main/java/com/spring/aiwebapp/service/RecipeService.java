@@ -35,5 +35,6 @@ public class RecipeService {
         );
         Prompt prompt = promptTemplate.create(params);
         return chatModel.call(prompt).getResult().getOutput().getText();
+
     }
 }
