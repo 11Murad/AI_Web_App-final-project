@@ -29,6 +29,8 @@ public class ChatService {
                                 .build()
                 ));
         String savedResponse = response.getResult().getOutput().getText();
+
+
         return savedResponse;
     }
 }

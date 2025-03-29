@@ -1,7 +1,11 @@
 package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
+import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
 @Entity
 @Table(name = "chat_history")
 public class Chat {
@@ -10,10 +14,13 @@ public class Chat {
     private Long id;
 
     @Column(nullable = false)
-    private String prompt;
+    private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String response;
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    private List<Prompt> prompts = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
@@ -22,9 +29,4 @@ public class Chat {
         this.createdDate = LocalDateTime.now();
     }
 
-    public Chat(String prompt, String response) {
-        this.prompt = prompt;
-        this.response = response;
-        this.createdDate = LocalDateTime.now();
-    }
 }
