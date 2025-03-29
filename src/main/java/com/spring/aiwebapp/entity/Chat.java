@@ -16,7 +16,7 @@ public class Chat {
     @Column(nullable = false)
     private String title;
 
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    @OneToMany( cascade = CascadeType.ALL)
     private List<Prompt> prompts = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)

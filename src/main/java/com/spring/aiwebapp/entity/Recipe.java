@@ -1,9 +1,11 @@
 package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "recipes")
+@AllArgsConstructor
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,23 +21,21 @@ public class Recipe {
 
     private String language;
 
-    @Column(nullable = false,columnDefinition = "TEXT" ,name = "recipe_text")
-    private String recipeText;
-
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Response response;
 
     public Recipe() {
         this.createdDate = LocalDateTime.now();
     }
 
-    public Recipe(String ingredients, String cuisine, String dietaryRestrictions, String language, String recipeText) {
+    public Recipe(String ingredients, String cuisine, String dietaryRestrictions, String language) {
         this.ingredients = ingredients;
         this.cuisine = cuisine;
         this.dietaryRestrictions = dietaryRestrictions;
         this.language = language;
-        this.recipeText = recipeText;
         this.createdDate = LocalDateTime.now();
     }
 

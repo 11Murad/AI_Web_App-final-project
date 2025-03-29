@@ -4,6 +4,7 @@ import com.spring.aiwebapp.service.ChatService;
 import com.spring.aiwebapp.service.ImageService;
 import com.spring.aiwebapp.service.RecipeService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.ai.image.ImageResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,20 +31,25 @@ public class GenAIController {
     }
 
     @GetMapping("/ask-ai-options")
-    public String getResponseOptions (@RequestParam String prompt) {
-        return chatService.getResponseOptions(prompt);
+    public String getResponseByOptions(@RequestParam String prompt) {
+        return chatService.getResponseByOptions(prompt);
     }
 
-//    @GetMapping("/generate-image")
-//    public void generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
-//        ImageResponse imageResponse = imageService.generateImage(prompt);
-//        String url = imageResponse.getResult().getOutput().getUrl();
-//        response.sendRedirect(url);
-//    }
-
     @GetMapping("/generate-image")
-    public List<String> generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
-        List<String> imageUrls = imageService.generateImageByOptions(prompt);
+    public void generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
+        ImageResponse imageResponse = imageService.generateImage(prompt);
+        String url = imageResponse.getResult().getOutput().getUrl();
+        response.sendRedirect(url);
+    }
+
+    @GetMapping("/generate-images")
+    public List<String> generateImage (HttpServletResponse response,
+                                       @RequestParam String prompt,
+                                       @RequestParam(defaultValue = "hd") String quality,
+                                       @RequestParam(defaultValue = "1") int n,
+                                       @RequestParam(defaultValue = "1024") int height,
+                                       @RequestParam(defaultValue = "1024") int width)    throws IOException {
+        List<String> imageUrls = imageService.generateImageByOptions(prompt, quality, n, height, width);
         return imageUrls;
     }
 

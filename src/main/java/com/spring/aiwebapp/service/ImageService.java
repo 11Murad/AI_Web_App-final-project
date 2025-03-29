@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class ImageService {
+
     private final OpenAiImageModel imageModel;
 
     public ImageService(OpenAiImageModel imageModel) {
@@ -21,15 +22,16 @@ public class ImageService {
         );
     }
 
-    public List<String> generateImageByOptions(String prompt) {
+    public List<String> generateImageByOptions(String prompt, String quality,
+                                               int n, int height, int width) {
         ImageResponse response = imageModel.call(
                 new ImagePrompt(prompt,
                         OpenAiImageOptions.builder()
                                 .withModel("dall-e-2")
-                                .withQuality("hd")
-                                .withN(1)
-                                .withHeight(1024)
-                                .withWidth(1024)
+                                .withQuality(quality)
+                                .withN(n)
+                                .withHeight(height)
+                                .withWidth(width)
                                 .build()
                         )
         );
