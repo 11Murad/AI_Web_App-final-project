@@ -25,21 +25,14 @@ public class GenAIController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/ask-ai")
-    public String getResponse (@RequestParam String prompt) {
-        return chatService.getResponse(prompt);
-    }
+//    @GetMapping("/ask-ai")
+//    public String getResponse (@RequestParam String prompt) {
+//        return chatService.getResponse(prompt);
+//    }
 
-    @GetMapping("/ask-ai-options")
+    @GetMapping("/ask-ai")
     public String getResponseByOptions(@RequestParam String prompt) {
         return chatService.getResponseByOptions(prompt);
-    }
-
-    @GetMapping("/generate-image")
-    public void generateImage (HttpServletResponse response, @RequestParam String prompt) throws IOException {
-        ImageResponse imageResponse = imageService.generateImage(prompt);
-        String url = imageResponse.getResult().getOutput().getUrl();
-        response.sendRedirect(url);
     }
 
     @GetMapping("/generate-images")

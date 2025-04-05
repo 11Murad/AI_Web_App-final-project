@@ -16,10 +16,10 @@ public class Chat {
     @Column(nullable = false)
     private String title;
 
-    @OneToMany( cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Prompt> prompts = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private User user;
 
     @Column(name = "created_date", nullable = false)

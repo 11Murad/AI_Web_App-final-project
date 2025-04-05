@@ -1,9 +1,8 @@
 package com.spring.aiwebapp.controller;
-import com.spring.aiwebapp.model.request.UserRequest;
-import com.spring.aiwebapp.model.response.Result;
-import com.spring.aiwebapp.model.response.UserResponse;
+import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.response.Result;
+import com.spring.aiwebapp.DTO.response.UserResponse;
 import com.spring.aiwebapp.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +14,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    // bu inmdi basqa xeta verdi @Requiredargconstructorla evez etmisdim konstruktoru ondan sonra indiki xeta geld
     @PostMapping("/create")
     public void create(@RequestBody UserRequest userRequest) {
          userService.createUser(userRequest);

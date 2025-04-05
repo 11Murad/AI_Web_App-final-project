@@ -1,4 +1,4 @@
-package com.spring.aiwebapp.model.response;
+package com.spring.aiwebapp.DTO.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

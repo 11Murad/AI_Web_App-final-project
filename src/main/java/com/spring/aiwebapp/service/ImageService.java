@@ -16,12 +16,6 @@ public class ImageService {
         this.imageModel = imageModel;
     }
 
-    public ImageResponse generateImage(String prompt) {
-        return imageModel.call(
-                new ImagePrompt(prompt)
-        );
-    }
-
     public List<String> generateImageByOptions(String prompt, String quality,
                                                int n, int height, int width) {
         ImageResponse response = imageModel.call(

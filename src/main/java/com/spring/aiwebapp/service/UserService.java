@@ -2,9 +2,9 @@ package com.spring.aiwebapp.service;
 
 import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.mapper.UserMapper;
-import com.spring.aiwebapp.model.request.UserRequest;
-import com.spring.aiwebapp.model.response.Result;
-import com.spring.aiwebapp.model.response.UserResponse;
+import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.response.Result;
+import com.spring.aiwebapp.DTO.response.UserResponse;
 import com.spring.aiwebapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

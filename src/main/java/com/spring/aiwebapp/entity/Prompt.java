@@ -23,9 +23,6 @@ public class Prompt {
     @OneToOne(cascade = CascadeType.ALL)
     private Response response;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Chat chat;
-
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 

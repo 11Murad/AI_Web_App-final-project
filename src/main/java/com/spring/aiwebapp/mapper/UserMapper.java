@@ -1,8 +1,8 @@
 package com.spring.aiwebapp.mapper;
 
 import com.spring.aiwebapp.entity.User;
-import com.spring.aiwebapp.model.request.UserRequest;
-import com.spring.aiwebapp.model.response.UserResponse;
+import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.response.UserResponse;
 
 public interface UserMapper {
     static User userRequestToUser(UserRequest userRequest) {

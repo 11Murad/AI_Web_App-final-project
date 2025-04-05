@@ -1,4 +1,4 @@
-package com.spring.aiwebapp.model.request;
+package com.spring.aiwebapp.DTO.request;
 
 import lombok.Data;
 

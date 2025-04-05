@@ -13,24 +13,21 @@ public class ChatService {
         this.chatModel = chatModel;
     }
 
-    public String getResponse(String prompt) {
-        return chatModel.call(prompt);
-    }
+//    public String getResponse(String prompt) {
+//        return chatModel.call(prompt);
+//    }
 
     public String getResponseByOptions(String prompt) {
-
 
         ChatResponse response = chatModel.call(
                 new Prompt(
                         prompt,
                         OpenAiChatOptions.builder()
-                                .model("gpt-3.5-turbo")
+                                .model("gpt-4o-mini")
                                 .temperature(0.4)
                                 .build()
                 ));
         String savedResponse = response.getResult().getOutput().getText();
-
-
 
         return savedResponse;
     }
