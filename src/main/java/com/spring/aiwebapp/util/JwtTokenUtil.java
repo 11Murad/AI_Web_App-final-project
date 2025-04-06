@@ -13,10 +13,10 @@ import java.util.Map;
 
 @Component
 public class JwtTokenUtil {
-    @Value("${JWT_SECRET_KEY}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    private final long EXPIRATION_TIME = 900_000;
+    private final long EXPIRATION_TIME = 900000;
 
     private Key getSigningKey() {
         byte[] keyBytes = secret.getBytes();
@@ -47,6 +47,8 @@ public class JwtTokenUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", userDetails.getAuthorities());
+
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
