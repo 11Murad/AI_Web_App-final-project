@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -12,22 +13,32 @@ import java.time.LocalDateTime;
 @Table(name = "prompt")
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Prompt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String prompt;
+    @Column(nullable = false,columnDefinition = "TEXT")
+    private String content;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column(nullable = false)
+    private Type type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
+
+    @OneToOne(mappedBy = "prompt" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private Response response;
 
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
-    public Prompt(String prompt) {
-        this.createdDate = LocalDateTime.now();
+    public enum Type {
+        CHAT,
+        IMAGE,
+        RECIPE
     }
 
 }

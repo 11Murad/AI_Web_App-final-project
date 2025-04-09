@@ -1,25 +1,41 @@
 package com.spring.aiwebapp.mapper;
 
-import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.DTO.request.UserRequest;
 import com.spring.aiwebapp.DTO.response.UserResponse;
+import com.spring.aiwebapp.entity.User;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
-    static User userRequestToUser(UserRequest userRequest) {
-        return User.builder()
-                .name(userRequest.getName())
-                .surname(userRequest.getSurname())
-                .email(userRequest.getEmail())
-                .password(userRequest.getPassword())
-                .build();
+
+    @Mapping(target = "createdAt", expression = "java(formatDateTime(user.getCreatedAt()))")
+    @Mapping(target = "password", ignore = true)
+    UserResponse toResponseDTO(User user);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "chats", ignore = true)
+    User toEntity(UserRequest userRequest);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "chats", ignore = true)
+    void updateUserFromDto(UserRequest userRequest, @MappingTarget User user);
+
+    List<UserResponse> toDTOList(List<User> users);
+
+    default String formatDateTime(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
+        return dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
-    static UserResponse userToUserResponse(User user) {
-        return UserResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .surname(user.getSurname())
-                .email(user.getEmail())
-                .build();
-    }
+
 }

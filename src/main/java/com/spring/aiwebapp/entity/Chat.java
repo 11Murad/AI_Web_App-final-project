@@ -1,13 +1,19 @@
 package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "chat_history")
+@Table(name = "chats")
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +22,15 @@ public class Chat {
     @Column(nullable = false)
     private String title;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Prompt> prompts = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "created_date", nullable = false)
+    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    private List<Prompt> prompts = new ArrayList<>();
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
-    public Chat() {
-        this.createdDate = LocalDateTime.now();
-    }
 
 }

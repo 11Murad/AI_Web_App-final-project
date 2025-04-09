@@ -1,11 +1,15 @@
 package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "recipes")
 @AllArgsConstructor
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,22 +25,10 @@ public class Recipe {
 
     private String language;
 
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "recipe",orphanRemoval = true)
     private Response response;
 
-    public Recipe() {
-        this.createdDate = LocalDateTime.now();
-    }
-
-    public Recipe(String ingredients, String cuisine, String dietaryRestrictions, String language) {
-        this.ingredients = ingredients;
-        this.cuisine = cuisine;
-        this.dietaryRestrictions = dietaryRestrictions;
-        this.language = language;
-        this.createdDate = LocalDateTime.now();
-    }
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
 }
