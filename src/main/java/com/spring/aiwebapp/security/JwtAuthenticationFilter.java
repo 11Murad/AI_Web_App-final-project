@@ -1,6 +1,5 @@
 package com.spring.aiwebapp.security;
 
-import com.spring.aiwebapp.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -6,7 +6,7 @@ import com.spring.aiwebapp.DTO.response.AuthResponse;
 import com.spring.aiwebapp.DTO.response.UserResponse;
 import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.mapper.UserMapper;
-import com.spring.aiwebapp.util.JwtTokenUtil;
+import com.spring.aiwebapp.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

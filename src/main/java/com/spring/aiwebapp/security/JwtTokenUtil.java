@@ -1,4 +1,4 @@
-package com.spring.aiwebapp.util;
+package com.spring.aiwebapp.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,12 +14,13 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
     @Value("${jwt.secret}")
-    private String secret;
+    private String SECRET;
 
-    private final long EXPIRATION_TIME = 900000;
+    @Value("${jwt.expiration.regexp}")
+    private long EXPIRATION_TIME;
 
     private Key getSigningKey() {
-        byte[] keyBytes = secret.getBytes();
+        byte[] keyBytes = SECRET.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -57,7 +58,7 @@ public class JwtTokenUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME * 4))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME ))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
