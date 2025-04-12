@@ -16,7 +16,7 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String SECRET;
 
-    @Value("${jwt.expiration.regexp}")
+    @Value("${jwt.expiration}")
     private long EXPIRATION_TIME;
 
     private Key getSigningKey() {
@@ -27,7 +27,6 @@ public class JwtTokenUtil {
     public String getEmailFromToken(String token) {
         return getAllClaimsFromToken(token).getSubject();
     }
-
 
     public Date getExpirationDateFromToken(String token) {
         return getAllClaimsFromToken(token).getExpiration();
