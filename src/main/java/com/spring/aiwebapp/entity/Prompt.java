@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -32,13 +33,16 @@ public class Prompt {
     @OneToOne(mappedBy = "prompt" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private Response response;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
 
     public enum Type {
         CHAT,
         IMAGE,
         RECIPE
     }
+
 
 }

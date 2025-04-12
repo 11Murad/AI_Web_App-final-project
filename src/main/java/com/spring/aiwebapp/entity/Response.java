@@ -2,6 +2,8 @@ package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -9,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "responses")
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Response {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +28,7 @@ public class Response {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at")
+    @CreatedDate
     private LocalDateTime createdAt;
 }

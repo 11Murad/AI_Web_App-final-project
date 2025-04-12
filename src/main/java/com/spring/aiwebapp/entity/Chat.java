@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,8 +30,9 @@ public class Chat {
     @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Prompt> prompts = new ArrayList<>();
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
 
 
 }
