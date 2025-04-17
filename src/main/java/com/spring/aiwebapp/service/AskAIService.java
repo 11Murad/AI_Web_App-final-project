@@ -1,4 +1,8 @@
 package com.spring.aiwebapp.service;
+import com.spring.aiwebapp.DTO.response.ChatDTO;
+import com.spring.aiwebapp.DTO.response.PromptDTO;
+import com.spring.aiwebapp.entity.Chat;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -6,18 +10,17 @@ import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ChatService {
+@RequiredArgsConstructor
+public class AskAIService {
+
     private final ChatModel chatModel;
-
-    public ChatService(ChatModel chatModel) {
-        this.chatModel = chatModel;
-    }
-
-//    public String getResponse(String prompt) {
-//        return chatModel.call(prompt);
-//    }
+    private final ChatService chatService;
+    private final PromptService promptService;
+    private final ResponseService responseService;
 
     public String getResponseByOptions(String prompt) {
+        ChatDTO savedChat = chatService.createChat(prompt, Chat.Type.TEXT.name());
+        PromptDTO savedPrompt = promptService.savePrompt(prompt, savedChat.getId());
 
         ChatResponse response = chatModel.call(
                 new Prompt(
@@ -28,6 +31,10 @@ public class ChatService {
                                 .build()
                 ));
         String savedResponse = response.getResult().getOutput().getText();
+        responseService.saveResponse(response, prompt);
+
+        //ResponseServis de promptId, chatId save edirik
+
 
         return savedResponse;
     }

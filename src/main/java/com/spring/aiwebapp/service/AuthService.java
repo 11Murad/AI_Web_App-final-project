@@ -3,7 +3,7 @@ package com.spring.aiwebapp.service;
 import com.spring.aiwebapp.DTO.request.AuthRequest;
 import com.spring.aiwebapp.DTO.request.UserRequest;
 import com.spring.aiwebapp.DTO.response.AuthResponse;
-import com.spring.aiwebapp.DTO.response.UserResponse;
+import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.mapper.UserMapper;
 import com.spring.aiwebapp.security.JwtTokenUtil;
@@ -37,7 +37,7 @@ public class AuthService {
             User user = (User) authentication.getPrincipal();
             String jwt = jwtTokenUtil.generateToken(user);
 
-            UserResponse userDTO = userMapper.toResponseDTO(user);
+            UserDTO userDTO = userMapper.toResponseDTO(user);
 
             return AuthResponse.builder()
                     .token(jwt)
@@ -49,7 +49,7 @@ public class AuthService {
     }
 
     public AuthResponse register(UserRequest userDTO) {
-        UserResponse createdUser = userService.createUser(userDTO);
+        UserDTO createdUser = userService.createUser(userDTO);
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -75,7 +75,7 @@ public class AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() ||
                 !(authentication.getPrincipal() instanceof User)) {
-            return null;
+            throw new IllegalStateException("User is not authenticated");
         }
         return (User) authentication.getPrincipal();
     }

@@ -26,7 +26,12 @@ public class Recipe {
 
     private String language;
 
-    @OneToOne(mappedBy = "recipe",orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "response_id")
     private Response response;
 
     @Column(name = "created_at")

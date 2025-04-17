@@ -2,6 +2,7 @@ package com.spring.aiwebapp.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Builder
 @Table(name = "prompt")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,9 +25,6 @@ public class Prompt {
     @Column(nullable = false,columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false)
-    private Type type;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
@@ -37,12 +36,6 @@ public class Prompt {
     @CreatedDate
     private LocalDateTime createdAt;
 
-
-    public enum Type {
-        CHAT,
-        IMAGE,
-        RECIPE
-    }
 
 
 }

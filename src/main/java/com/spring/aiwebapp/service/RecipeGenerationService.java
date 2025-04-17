@@ -1,4 +1,7 @@
 package com.spring.aiwebapp.service;
+import com.spring.aiwebapp.DTO.response.ChatDTO;
+import com.spring.aiwebapp.entity.Chat;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -6,17 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class RecipeService {
+@RequiredArgsConstructor
+public class RecipeGenerationService {
     private final ChatModel chatModel;
-
-    public RecipeService(ChatModel chatModel) {
-        this.chatModel = chatModel;
-    }
 
     public String createRecipe(String ingredients,
                                String cuisine,
                                String dietaryRestrictions,
                                String language) {
+
+        ChatDTO savedChat = chatService.createChat(prompt, Chat.Type.RECIPE.name());
+
         var template = """
                 I want to create a recipe using the following ingredients: {ingredients}.
                 The cuisine type I prefer is {cuisine}.
@@ -33,6 +36,7 @@ public class RecipeService {
         );
         Prompt prompt = promptTemplate.create(params);
         return chatModel.call(prompt).getResult().getOutput().getText();
+
 
     }
 }

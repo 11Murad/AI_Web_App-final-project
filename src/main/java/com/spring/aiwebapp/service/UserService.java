@@ -1,7 +1,7 @@
 package com.spring.aiwebapp.service;
 
 import com.spring.aiwebapp.DTO.request.UserRequest;
-import com.spring.aiwebapp.DTO.response.UserResponse;
+import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.mapper.UserMapper;
 import com.spring.aiwebapp.repository.UserRepository;
@@ -19,21 +19,21 @@ public class UserService  {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserResponse getUserById(Long id) {
+    public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
         return userMapper.toResponseDTO(user);
     }
 
     @Transactional(readOnly = true)
-    public UserResponse getUserByEmail(String email) {
+    public UserDTO getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
         return userMapper.toResponseDTO(user);
     }
 
     @Transactional
-    public UserResponse createUser(UserRequest userRequest) {
+    public UserDTO createUser(UserRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.getEmail())) throw
                 new IllegalArgumentException("Email already exists: " + userRequest.getEmail());
 
@@ -45,7 +45,7 @@ public class UserService  {
     }
 
     @Transactional
-    public UserResponse updateUser(Long id, UserRequest userDTO) {
+    public UserDTO updateUser(Long id, UserRequest userDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
 

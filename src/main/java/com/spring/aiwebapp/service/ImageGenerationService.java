@@ -1,5 +1,8 @@
 package com.spring.aiwebapp.service;
 
+import com.spring.aiwebapp.DTO.response.ChatDTO;
+import com.spring.aiwebapp.entity.Chat;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.openai.OpenAiImageModel;
@@ -8,16 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ImageService {
+@RequiredArgsConstructor
+public class ImageGenerationService {
 
     private final OpenAiImageModel imageModel;
-
-    public ImageService(OpenAiImageModel imageModel) {
-        this.imageModel = imageModel;
-    }
+    private final ChatService chatService;
 
     public List<String> generateImageByOptions(String prompt, String quality,
                                                int n, int height, int width) {
+        ChatDTO savedChat = chatService.createChat(prompt, Chat.Type.IMAGE.name());
+
+
         ImageResponse response = imageModel.call(
                 new ImagePrompt(prompt,
                         OpenAiImageOptions.builder()
@@ -31,5 +35,7 @@ public class ImageService {
         );
         return response.getResults().stream().map(result-> result.getOutput().getUrl()).toList();
     }
+
+
 
 }

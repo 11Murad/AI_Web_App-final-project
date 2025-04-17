@@ -1,7 +1,7 @@
 package com.spring.aiwebapp.mapper;
 
 import com.spring.aiwebapp.DTO.request.UserRequest;
-import com.spring.aiwebapp.DTO.response.UserResponse;
+import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +16,7 @@ public interface UserMapper {
 
     @Mapping(target = "createdAt", expression = "java(formatDateTime(user.getCreatedAt()))")
     @Mapping(target = "password", ignore = true)
-    UserResponse toResponseDTO(User user);
+    UserDTO toResponseDTO(User user);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -28,7 +28,7 @@ public interface UserMapper {
     @Mapping(target = "chats", ignore = true)
     void updateUserFromDto(UserRequest userRequest, @MappingTarget User user);
 
-    List<UserResponse> toDTOList(List<User> users);
+    List<UserDTO> toDTOList(List<User> users);
 
     default String formatDateTime(LocalDateTime dateTime) {
         if (dateTime == null) {
