@@ -18,10 +18,24 @@ public class AskAIService {
     private final PromptService promptService;
     private final ResponseService responseService;
 
-    public String getResponseByOptions(String prompt) {
+    public ChatDTO getResponse(String prompt) {
         ChatDTO savedChat = chatService.createChat(prompt, Chat.Type.TEXT.name());
         PromptDTO savedPrompt = promptService.savePrompt(prompt, savedChat.getId());
+        String aiResponse = response(prompt);
 
+        ChatDTO chatDTO = responseService.saveResponse(aiResponse, savedPrompt.getId()); ;
+        return chatDTO;
+    }
+
+    public ChatDTO getResponseWithExistingChat(String prompt, Long chatId) {
+        PromptDTO savedPrompt = promptService.savePrompt(prompt, chatId);
+        String aiResponse = response(prompt);
+
+        ChatDTO chatDTO = responseService.saveResponse(aiResponse, savedPrompt.getId()); ;
+        return chatDTO;
+    }
+
+    private String response(String prompt) {
         ChatResponse response = chatModel.call(
                 new Prompt(
                         prompt,
@@ -30,12 +44,6 @@ public class AskAIService {
                                 .temperature(0.4)
                                 .build()
                 ));
-        String savedResponse = response.getResult().getOutput().getText();
-        responseService.saveResponse(response, prompt);
-
-        //ResponseServis de promptId, chatId save edirik
-
-
-        return savedResponse;
+        return response.getResult().getOutput().getText();
     }
 }

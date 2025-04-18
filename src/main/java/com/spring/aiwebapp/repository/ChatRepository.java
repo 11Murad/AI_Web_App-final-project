@@ -20,4 +20,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     void deleteByIdAndUser(Long id, User user);
 
     Page<Chat> findByUser(User user, PageRequest pageRequest);
+
+    Optional<Chat> findChatByPromptId(Long promptId);
 }
