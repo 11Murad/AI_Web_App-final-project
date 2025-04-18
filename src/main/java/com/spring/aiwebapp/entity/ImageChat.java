@@ -1,43 +1,50 @@
 package com.spring.aiwebapp.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
 @Entity
 @Builder
-@Table(name = "recipes")
-@AllArgsConstructor
+@Table(name = "chats")
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Recipe {
+public class ImageChat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String ingredients;
+    private String title;
 
-    private String cuisine;
-
-    @Column(name = "dietary_restrictions")
-    private String dietaryRestrictions;
-
-    private String language;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id", nullable = false)
-    private TextChat textChat;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "response_id")
-    private TextResponse textResponse;
+    @OneToMany(mappedBy = "imageChat", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ImagePrompt> imagePrompts = new ArrayList<>();
 
     @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
 
+    public enum Type {
+        TEXT,
+        IMAGE,
+    }
 }

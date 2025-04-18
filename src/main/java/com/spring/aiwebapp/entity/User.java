@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    private List<Chat> chats;
+    private List<TextChat> textChats;
 
     @Column(name = "created_at")
     @CreatedDate

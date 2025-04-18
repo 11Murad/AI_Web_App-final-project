@@ -1,6 +1,4 @@
 package com.spring.aiwebapp.service;
-import com.spring.aiwebapp.DTO.response.ChatDTO;
-import com.spring.aiwebapp.entity.Chat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -17,8 +15,6 @@ public class RecipeGenerationService {
                                String cuisine,
                                String dietaryRestrictions,
                                String language) {
-
-        ChatDTO savedChat = chatService.createChat(prompt, Chat.Type.RECIPE.name());
 
         var template = """
                 I want to create a recipe using the following ingredients: {ingredients}.

@@ -1,6 +1,6 @@
 package com.spring.aiwebapp.repository;
 
-import com.spring.aiwebapp.entity.Chat;
+import com.spring.aiwebapp.entity.TextChat;
 import com.spring.aiwebapp.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,13 +11,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ChatRepository extends JpaRepository<Chat, Long> {
+public interface TextChatRepository extends JpaRepository<TextChat, Long> {
 
-    List<Chat> findByUserOrderByCreatedAtDesc(User user);
+    List<TextChat> findByUserOrderByCreatedAtDesc(User user);
 
-    Optional<Chat> findByIdAndUser(Long id, User user);
+    Optional<TextChat> findByIdAndUser(Long id, User user);
 
     void deleteByIdAndUser(Long id, User user);
 
-    Page<Chat> findByUser(User user, PageRequest pageRequest);
+    Page<TextChat> findByUser(User user, PageRequest pageRequest);
+
+    Optional<TextChat> findChatByPromptId(Long promptId);
 }

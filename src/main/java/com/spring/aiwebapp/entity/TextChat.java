@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Chat {
+public class TextChat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,13 +33,9 @@ public class Chat {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "textChat", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Prompt> prompts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<Recipe> recipes = new ArrayList<>();
+    private List<TextPrompt> textPrompt = new ArrayList<>();
 
     @Column(name = "created_at")
     @CreatedDate
@@ -48,7 +44,6 @@ public class Chat {
     public enum Type {
         TEXT,
         IMAGE,
-        RECIPE
     }
 
 }

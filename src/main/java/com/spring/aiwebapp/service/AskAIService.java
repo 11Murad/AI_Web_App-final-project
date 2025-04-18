@@ -1,7 +1,8 @@
 package com.spring.aiwebapp.service;
-import com.spring.aiwebapp.DTO.response.ChatDTO;
-import com.spring.aiwebapp.DTO.response.PromptDTO;
-import com.spring.aiwebapp.entity.Chat;
+import com.spring.aiwebapp.DTO.response.TextChatDTO;
+import com.spring.aiwebapp.DTO.response.TextPromptDTO;
+import com.spring.aiwebapp.DTO.response.TextResponseDTO;
+import com.spring.aiwebapp.entity.TextChat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -15,13 +16,27 @@ public class AskAIService {
 
     private final ChatModel chatModel;
     private final ChatService chatService;
-    private final PromptService promptService;
-    private final ResponseService responseService;
+    private final TextPromptService textPromptService;
+    private final TextResponseService textResponseService;
 
-    public String getResponseByOptions(String prompt) {
-        ChatDTO savedChat = chatService.createChat(prompt, Chat.Type.TEXT.name());
-        PromptDTO savedPrompt = promptService.savePrompt(prompt, savedChat.getId());
+    public TextResponseDTO getResponse(String prompt) {
+        TextChatDTO savedChat = chatService.createChat(prompt, TextChat.Type.TEXT.name());
+        TextPromptDTO savedPrompt = textPromptService.savePrompt(prompt, savedChat.getId());
+        String aiResponse = responseFromAI(prompt);
 
+        TextResponseDTO response = textResponseService.saveResponse(aiResponse, savedPrompt.getId()); ;
+        return response;
+    }
+
+    public TextResponseDTO getResponseWithExistingChat(String prompt, Long chatId) {
+        TextPromptDTO savedPrompt = textPromptService.savePrompt(prompt, chatId);
+        String aiResponse = responseFromAI(prompt);
+
+        TextResponseDTO response = textResponseService.saveResponse(aiResponse, savedPrompt.getId()); ;
+        return response;
+    }
+
+    private String responseFromAI(String prompt) {
         ChatResponse response = chatModel.call(
                 new Prompt(
                         prompt,
@@ -30,12 +45,6 @@ public class AskAIService {
                                 .temperature(0.4)
                                 .build()
                 ));
-        String savedResponse = response.getResult().getOutput().getText();
-        responseService.saveResponse(response, prompt);
-
-        //ResponseServis de promptId, chatId save edirik
-
-
-        return savedResponse;
+        return response.getResult().getOutput().getText();
     }
 }
