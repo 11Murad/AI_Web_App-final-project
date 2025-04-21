@@ -18,7 +18,6 @@ public class TextResponseService {
     private final TextResponseRepository textResponseRepository;
 
 
-
     public TextResponseDTO saveResponse(String response, Long promptId) {
         TextPrompt textPrompt = textPromptRepository.findById(promptId).orElseThrow(() ->
                 new ResourceNotFoundException("Prompt not found with id: " + promptId));
@@ -26,9 +25,8 @@ public class TextResponseService {
         TextResponse textResponseEntity = new TextResponse();
         textResponseEntity.setContent(response);
         textResponseEntity.setTextPrompt(textPrompt);
-        TextResponseDTO textResponseDTO = TextResponseMap.toDTO(textResponseRepository.save(textResponseEntity));
 
-        return textResponseDTO;
+        return TextResponseMap.toDTO(textResponseRepository.save(textResponseEntity));
 
     }
 }
