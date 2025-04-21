@@ -31,8 +31,8 @@ public class AskAIService {
     public TextResponseDTO getResponseWithExistingChat(String prompt, Long chatId) {
         TextPromptDTO savedPrompt = textPromptService.savePrompt(prompt, chatId);
         String aiResponse = responseFromAI(prompt);
-
         TextResponseDTO response = textResponseService.saveResponse(aiResponse, savedPrompt.getId()); ;
+
         return response;
     }
 

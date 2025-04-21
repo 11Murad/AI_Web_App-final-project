@@ -3,6 +3,7 @@ package com.spring.aiwebapp.service;
 import com.spring.aiwebapp.DTO.request.ImagePromptRequest;
 import com.spring.aiwebapp.DTO.response.*;
 import com.spring.aiwebapp.entity.TextChat;
+import com.spring.aiwebapp.repository.ImageResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
@@ -19,6 +20,7 @@ public class ImageGenerationService {
     private final ImageChatService imageChatService;
     private final ImagePromptService ImagePromptService;
     private final ImageResponseService responseService;
+    private final ImageResponseRepository imageResponseRepo;
 
     private List<String> generateImageByAI(ImagePromptRequest request) {
         ImageResponse response = imageClient.call(
