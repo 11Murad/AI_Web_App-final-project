@@ -1,9 +1,12 @@
 package com.spring.aiwebapp.service;
 
+import com.spring.aiwebapp.DTO.response.ImageResponseDTO;
 import com.spring.aiwebapp.repository.ImagePromptRepository;
 import com.spring.aiwebapp.repository.ImageResponseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +17,9 @@ public class ImageResponseService {
     private final ImageResponseRepository imageResponseRepository;
 
 
+    public List<ImageResponseDTO> saveResponses(List<String> imageUrls, Long promptId) {
 
+        return null;
+    }
 
 }

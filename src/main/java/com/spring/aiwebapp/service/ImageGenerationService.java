@@ -4,7 +4,6 @@ import com.spring.aiwebapp.DTO.request.ImagePromptRequest;
 import com.spring.aiwebapp.DTO.response.*;
 import com.spring.aiwebapp.entity.TextChat;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.image.ImageOptions;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.openai.OpenAiImageModel;

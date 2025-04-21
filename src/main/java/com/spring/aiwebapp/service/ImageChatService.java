@@ -63,5 +63,12 @@ public class ImageChatService {
         return ImageChatMap.toDTO(savedChat);
     }
 
+    public void deleteChat(Long id) {
+        User currentUser = authService.getCurrentUser();
+        if (!imageChatRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Chat not found with id: " + id);
+        }
+        imageChatRepository.deleteByIdAndUser(id, currentUser);
+    }
 
 }

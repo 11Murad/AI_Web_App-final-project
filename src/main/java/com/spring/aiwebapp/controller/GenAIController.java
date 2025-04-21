@@ -17,7 +17,6 @@ public class GenAIController {
     private final RecipeGenerationService recipeGenerationService;
     private final ChatService chatService;
 
-
     @GetMapping("/chat/new")
     public ResponseEntity<TextResponseDTO> startChat(@RequestBody String prompt) {
         TextResponseDTO response = askAIService.getResponse(prompt);
@@ -41,17 +40,6 @@ public class GenAIController {
 
         return null;
     }
-
-
-    @GetMapping("/recipe-creator")
-    public String createRecipe (@RequestParam String ingredients,// salam
-                                @RequestParam(defaultValue = "any" ) String cuisine,
-                                @RequestParam(defaultValue = "") String dietaryRestrictions,
-                                @RequestParam(defaultValue = "english") String language) {
-        return recipeGenerationService.createRecipe(ingredients, cuisine, dietaryRestrictions, language);
-
-    }
-
 
 
 }

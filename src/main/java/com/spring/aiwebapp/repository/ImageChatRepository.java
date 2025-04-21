@@ -17,4 +17,7 @@ public interface ImageChatRepository extends JpaRepository<ImageChat, Long> {
 
     Page<ImageChat> findByUser(User user, PageRequest pageRequest);
 
+    void deleteByIdAndUser(Long id, User user);
+
+
 }
