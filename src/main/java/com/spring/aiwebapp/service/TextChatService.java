@@ -1,15 +1,11 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.DTO.response.TextChatDTO;
 import com.spring.aiwebapp.entity.TextChat;
 import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.exception.ResourceNotFoundException;
 import com.spring.aiwebapp.mapper.TextChatMap;
 import com.spring.aiwebapp.repository.TextChatRepository;
-import com.spring.aiwebapp.repository.TextPromptRepository;
-import com.spring.aiwebapp.repository.TextResponseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -18,18 +14,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ChatService {
+public class TextChatService {
     private final TextChatRepository textChatRepository;
-    private final TextPromptRepository textPromptRepository;
-    private final TextResponseRepository textResponseRepository;
     private final AuthService authService;
-    private final OpenAiChatModel chatModel;
 
     public TextChatDTO getChatById(Long id) {
         User currentUser = authService.getCurrentUser();
         TextChat textChat = textChatRepository.findByIdAndUser(id, currentUser).
                 orElseThrow(() -> new ResourceNotFoundException("Chat not found with id: " + id));
-
         return TextChatMap.textChatToDTO(textChat);
     }
 
@@ -60,8 +52,15 @@ public class ChatService {
                 .build();
 
         TextChat savedTextChat = textChatRepository.save(textChat);
-
         return TextChatMap.textChatToDTO(savedTextChat);
+    }
+
+    public void deleteChat(Long id) {
+        User currentUser = authService.getCurrentUser();
+        if (!textChatRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Chat not found with id: " + id);
+        }
+        textChatRepository.deleteByIdAndUser(id, currentUser);
     }
 //
 //    public TextResponseDTO sendPrompt(Long chatId, TextPromptDTO textPromptDTO) {
@@ -95,15 +94,7 @@ public class ChatService {
 //                .content(savedTextResponse.getContent())
 //                .promptId(savedTextPrompt.getId())
 //                .build();
+
 //    }
-
-
-    public void deleteChat(Long id) {
-        User currentUser = authService.getCurrentUser();
-        if (!textChatRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Chat not found with id: " + id);
-        }
-        textChatRepository.deleteByIdAndUser(id, currentUser);
-    }
 
 }

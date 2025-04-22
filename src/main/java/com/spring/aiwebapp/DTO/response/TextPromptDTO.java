@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.DTO.response;
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +14,6 @@ public class TextPromptDTO {
 
     @NotBlank(message = "Content is required")
     private String content;
-
     private TextResponseDTO response;
-
     private Long chatId;
 }

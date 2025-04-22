@@ -2,7 +2,6 @@ package com.spring.aiwebapp.mapper;
 
 import com.spring.aiwebapp.DTO.response.TextPromptDTO;
 import com.spring.aiwebapp.entity.TextPrompt;
-import com.spring.aiwebapp.entity.TextChat;
 
 public interface TextPromptMap {
     static TextPromptDTO toDTO(TextPrompt textPrompt) {
@@ -18,13 +17,9 @@ public interface TextPromptMap {
         TextPrompt textPrompt = TextPrompt.builder()
                 .id(textPromptDTO.getId())
                 .content(textPromptDTO.getContent())
-                .textResponse(textPromptDTO.getResponse() != null ? TextResponseMap.toEntity(textPromptDTO.getResponse()) : null)
+                .textResponse(textPromptDTO.getResponse() != null ?
+                        TextResponseMap.toEntity(textPromptDTO.getResponse()) : null)
                 .build();
-        
-        if (textPromptDTO.getChatId() != null) {
-            textPrompt.setTextChat(TextChat.builder().id(textPromptDTO.getChatId()).build());
-        }
-        
         return textPrompt;
     }
 

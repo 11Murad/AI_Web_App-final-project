@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.mapper;
-
 import com.spring.aiwebapp.DTO.response.TextResponseDTO;
 import com.spring.aiwebapp.entity.TextPrompt;
 import com.spring.aiwebapp.entity.TextResponse;

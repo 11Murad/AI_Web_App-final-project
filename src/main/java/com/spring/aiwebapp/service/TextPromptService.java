@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.DTO.response.TextPromptDTO;
 import com.spring.aiwebapp.entity.TextChat;
 import com.spring.aiwebapp.entity.TextPrompt;

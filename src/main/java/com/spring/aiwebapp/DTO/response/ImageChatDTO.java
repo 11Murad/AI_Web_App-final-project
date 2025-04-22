@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.DTO.response;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImageChatDTO {
-
     private Long id;
-
     private String title;
-
     private Long userId;
-
     private List<ImagePromptDTO> prompts;
 }

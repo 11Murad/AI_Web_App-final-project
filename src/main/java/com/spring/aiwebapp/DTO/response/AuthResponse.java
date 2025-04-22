@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.DTO.response;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthResponse {
-
     private String token;
     private UserDTO userResponse;
-
 }

@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 public class AskAIService {
 
     private final ChatModel chatModel;
-    private final ChatService chatService;
+    private final TextChatService textChatService;
     private final TextPromptService textPromptService;
     private final TextResponseService textResponseService;
 
     public TextResponseDTO getResponse(String prompt) {
-        TextChatDTO savedChat = chatService.createChat(prompt, TextChat.Type.TEXT.name());
+        TextChatDTO savedChat = textChatService.createChat(prompt, TextChat.Type.TEXT.name());
         TextPromptDTO savedPrompt = textPromptService.savePrompt(prompt, savedChat.getId());
         String aiResponse = responseFromAI(prompt);
 

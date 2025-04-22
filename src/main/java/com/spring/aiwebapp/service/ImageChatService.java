@@ -1,18 +1,16 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.DTO.request.ImagePromptRequest;
 import com.spring.aiwebapp.DTO.response.ImageChatDTO;
 import com.spring.aiwebapp.entity.ImageChat;
+import com.spring.aiwebapp.entity.ImagePrompt;
 import com.spring.aiwebapp.entity.User;
 import com.spring.aiwebapp.exception.ResourceNotFoundException;
 import com.spring.aiwebapp.mapper.ImageChatMap;
 import com.spring.aiwebapp.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.openai.OpenAiImageModel;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +19,7 @@ import java.util.stream.Collectors;
 public class ImageChatService {
 
     private final ImageChatRepository imageChatRepository;
-    private final ImagePromptRepository imagePromptRepository;
-    private final ImageResponseRepository imageResponseRepository;
     private final AuthService authService;
-    private final OpenAiImageModel imageModel;
 
     public ImageChatDTO getChatById(Long id) {
         User currentUser = authService.getCurrentUser();
@@ -71,4 +66,8 @@ public class ImageChatService {
         imageChatRepository.deleteByIdAndUser(id, currentUser);
     }
 
+    public List<ImageChatDTO> getChatByPromptId(ImagePrompt pr) {
+        List<ImageChat> imageChats = imageChatRepository.findByImagePrompts(pr);
+        return ImageChatMap.toDTOList(imageChats);
+    }
 }

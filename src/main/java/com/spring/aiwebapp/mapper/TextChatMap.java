@@ -21,7 +21,7 @@ public interface TextChatMap {
         return textChats.stream().map(TextChatMap::textChatToDTO).toList();
     }
 
-    static TextChat DTOtoTextChat(TextChatDTO textChatDTO){
+    static TextChat DTOtoEntity(TextChatDTO textChatDTO){
         return TextChat.builder()
                 .id(textChatDTO.getId())
                 .title(textChatDTO.getTitle())

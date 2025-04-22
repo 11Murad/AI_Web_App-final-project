@@ -1,12 +1,10 @@
 package com.spring.aiwebapp.controller;
 
 import com.spring.aiwebapp.DTO.response.ImageChatDTO;
-import com.spring.aiwebapp.DTO.response.TextChatDTO;
 import com.spring.aiwebapp.service.ImageChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,7 +19,7 @@ public class ImageChatController {
         return ResponseEntity.ok(chat);
     }
 
-    @GetMapping("/user/")
+    @GetMapping("/history")
     public ResponseEntity<List<ImageChatDTO>> getUserChats() {
         List<ImageChatDTO> chats = imageChatService.getUserChats();
         return ResponseEntity.ok(chats);

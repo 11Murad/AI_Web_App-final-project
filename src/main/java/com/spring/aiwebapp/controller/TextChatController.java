@@ -1,7 +1,7 @@
 package com.spring.aiwebapp.controller;
 
 import com.spring.aiwebapp.DTO.response.TextChatDTO;
-import com.spring.aiwebapp.service.ChatService;
+import com.spring.aiwebapp.service.TextChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,30 +12,30 @@ import java.util.List;
 @RequestMapping("v1/api/chat/text")
 @RequiredArgsConstructor
 public class TextChatController {
-    private final ChatService chatService;
+    private final TextChatService textChatService;
 
     @GetMapping("/{id}")
     public ResponseEntity<TextChatDTO> getChatById(@PathVariable Long id) {
-        TextChatDTO chat = chatService.getChatById(id);
+        TextChatDTO chat = textChatService.getChatById(id);
         return ResponseEntity.ok(chat);
     }
 
-    @GetMapping("/user/")
+    @GetMapping("/history")
     public ResponseEntity<List<TextChatDTO>> getUserChats() {
-        List<TextChatDTO> chats = chatService.getUserChats();
+        List<TextChatDTO> chats = textChatService.getUserChats();
         return ResponseEntity.ok(chats);
     }
 
     @GetMapping("/recent")
     public ResponseEntity<List<TextChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "10") int limit,
                                                             @RequestParam(required = false, defaultValue = "0") int page) {
-        List<TextChatDTO> chats = chatService.getRecentChats(page,limit);
+        List<TextChatDTO> chats = textChatService.getRecentChats(page,limit);
         return ResponseEntity.ok(chats);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteChat(@PathVariable Long id) {
-        chatService.deleteChat(id);
+        textChatService.deleteChat(id);
         return ResponseEntity.noContent().build();
     }
 

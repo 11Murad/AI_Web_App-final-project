@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -33,7 +32,7 @@ public class ImagePrompt {
     private ImageChat imageChat;
 
     @OneToMany(mappedBy = "imagePrompt", cascade = CascadeType.ALL)
-    private List<ImageResponse> responses;
+    private List<PictureResponse> responses;
 
     @Column(name = "created_at")
     @CreatedDate

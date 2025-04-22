@@ -1,8 +1,9 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.request.UserRequestForUpdate;
 import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
+import com.spring.aiwebapp.exception.UserAlreadyExistsException;
 import com.spring.aiwebapp.mapper.UserMapper;
 import com.spring.aiwebapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,55 +14,47 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UserService  {
-
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
-        return userMapper.toResponseDTO(user);
+        return UserMapper.toUserDTO(user);
     }
 
     @Transactional(readOnly = true)
     public UserDTO getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
-        return userMapper.toResponseDTO(user);
+        return UserMapper.toUserDTO(user);
     }
 
     @Transactional
     public UserDTO createUser(UserRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.getEmail())) throw
-                new IllegalArgumentException("Email already exists: " + userRequest.getEmail());
+                new UserAlreadyExistsException("User already exists with email: " + userRequest.getEmail());
 
-        User user = userMapper.toEntity(userRequest);
+        User user = UserMapper.toEntity(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         User savedUser = userRepository.save(user);
-        return userMapper.toResponseDTO(savedUser);
+        return UserMapper.toUserDTO(savedUser);
     }
 
     @Transactional
-    public UserDTO updateUser(Long id, UserRequest userDTO) {
+    public void updateUser(Long id, UserRequestForUpdate userDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
 
-        if (userDTO.getEmail() != null && !user.getEmail().equals(userDTO.getEmail())
-                && userRepository.existsByEmail(userDTO.getEmail())) {
-            throw new IllegalArgumentException("Email already exists: " + userDTO.getEmail());
-        }
-
-        userMapper.updateUserFromDto(userDTO, user);
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
 
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         }
-
-        User updatedUser = userRepository.save(user);
-        return userMapper.toResponseDTO(updatedUser);
+        userRepository.save(user);
     }
 
     @Transactional

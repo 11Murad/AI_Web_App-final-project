@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

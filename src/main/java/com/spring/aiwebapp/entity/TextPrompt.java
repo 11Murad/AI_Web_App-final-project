@@ -28,7 +28,7 @@ public class TextPrompt {
     @JoinColumn(name = "text_chat_id", nullable = false)
     private TextChat textChat;
 
-    @OneToOne(mappedBy = "prompt" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "textPrompt" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private TextResponse textResponse;
 
     @Column(name = "created_at")

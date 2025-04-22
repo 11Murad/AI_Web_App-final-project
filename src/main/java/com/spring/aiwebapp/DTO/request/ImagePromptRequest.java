@@ -16,9 +16,16 @@ public class ImagePromptRequest {
     @NotBlank(message = "Prompt is required")
     private String prompt;
 
-    private String quality = "HD";
+    @Builder.Default
+    private String quality = "standard";
+
+    @Builder.Default
     private int n = 1;
+
+    @Builder.Default
     private int height = 1024;
+
+    @Builder.Default
     private int width = 1024;
 
     private LocalDateTime createdAt;

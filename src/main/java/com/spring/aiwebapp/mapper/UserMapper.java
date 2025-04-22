@@ -1,40 +1,28 @@
 package com.spring.aiwebapp.mapper;
-
 import com.spring.aiwebapp.DTO.request.UserRequest;
 import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
-
-    @Mapping(target = "createdAt", expression = "java(formatDateTime(user.getCreatedAt()))")
-    @Mapping(target = "password", ignore = true)
-    UserDTO toResponseDTO(User user);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "chats", ignore = true)
-    User toEntity(UserRequest userRequest);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "chats", ignore = true)
-    void updateUserFromDto(UserRequest userRequest, @MappingTarget User user);
-
-    List<UserDTO> toDTOList(List<User> users);
-
-    default String formatDateTime(LocalDateTime dateTime) {
-        if (dateTime == null) {
-            return null;
-        }
-        return dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
+    static UserDTO toUserDTO(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+    }
+    static User toEntity(UserRequest userRequest) {
+        return User.builder()
+                .firstName(userRequest.getFirstName())
+                .lastName(userRequest.getLastName())
+                .email(userRequest.getEmail())
+                .password(userRequest.getPassword())
+                .build();
     }
 
+    static List<UserDTO> toDTOList(List<User> users) {
+        return users.stream().map(UserMapper::toUserDTO).toList();
+    }
 }

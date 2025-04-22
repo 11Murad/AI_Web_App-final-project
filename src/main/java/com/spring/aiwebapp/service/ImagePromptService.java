@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.DTO.request.ImagePromptRequest;
 import com.spring.aiwebapp.DTO.response.ImagePromptDTO;
 import com.spring.aiwebapp.entity.ImageChat;
@@ -26,9 +25,9 @@ public class ImagePromptService {
                 .orElseThrow(() -> new ResourceNotFoundException("Chat not found with id: " + chatId));
 
         ImagePrompt imagePrompt = ImagePrompt.builder()
+                .imageChat(imageChat)
                 .prompt(request.getPrompt())
                 .n(request.getN()).quality(request.getQuality()).width(request.getWidth()).height(request.getHeight())
-                .imageChat(imageChat)
                 .build();
         return ImagePromptMap.toDTO(imagePromptRepository.save(imagePrompt));
     }

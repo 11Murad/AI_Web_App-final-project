@@ -1,5 +1,4 @@
 package com.spring.aiwebapp.service;
-
 import com.spring.aiwebapp.DTO.request.ImagePromptRequest;
 import com.spring.aiwebapp.DTO.response.*;
 import com.spring.aiwebapp.entity.TextChat;
@@ -46,14 +45,9 @@ public class ImageGenerationService {
         List<String> imageUrls = generateImageByAI(request);
 
         // 3. Response-ları saxla
-        responseService.saveResponses(imageUrls, savedPrompt.getId());
+        List<ImageResponseDTO> responses = responseService.saveResponses(imageUrls, savedPrompt.getId());
 
-        return imageUrls.stream().map(url -> {
-            com.spring.aiwebapp.entity.ImageResponse response = new ImageResponse();
-            response.setUrl(url);
-            response.setImagePrompt(savedPrompt);
-            return imageResponseRepo.save(response); // Repository istifadəsi
-        }).toList();
+        return responses;
     }
 
 
