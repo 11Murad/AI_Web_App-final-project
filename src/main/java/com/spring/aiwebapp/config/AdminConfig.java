@@ -13,7 +13,6 @@ import java.util.Set;
 @Component
 @RequiredArgsConstructor
 public class AdminConfig {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
