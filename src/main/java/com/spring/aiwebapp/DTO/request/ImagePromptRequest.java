@@ -1,5 +1,6 @@
 package com.spring.aiwebapp.DTO.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -28,6 +29,7 @@ public class ImagePromptRequest {
     @Builder.Default
     private int width = 1024;
 
+    @JsonIgnore
     private LocalDateTime createdAt;
 
     @PrePersist

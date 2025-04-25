@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 public class ImageResponseDTO {
 
     private Long id;
+
     private String url;
+
     private Long promptId;
+
+    private Long chatId;
 }

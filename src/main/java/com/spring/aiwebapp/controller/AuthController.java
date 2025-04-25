@@ -1,7 +1,7 @@
 package com.spring.aiwebapp.controller;
 
 import com.spring.aiwebapp.DTO.request.AuthRequest;
-import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.request.UserRequestForRegister;
 import com.spring.aiwebapp.DTO.response.AuthResponse;
 import com.spring.aiwebapp.service.AuthService;
 import jakarta.validation.Valid;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("v1/api/auth")
+@RequestMapping("/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -27,10 +27,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequest userDTO) {
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody UserRequestForRegister userDTO) {
         AuthResponse response = authService.register(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
 
 }

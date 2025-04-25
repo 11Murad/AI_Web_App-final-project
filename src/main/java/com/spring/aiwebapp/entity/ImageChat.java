@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,10 +15,9 @@ import java.util.List;
 @Data
 @Entity
 @Builder
-@Table(name = "chats")
+@Table(name = "image_history")
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public class ImageChat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,16 +34,22 @@ public class ImageChat {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "imageChat", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "imageChat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
     private List<ImagePrompt> imagePrompts = new ArrayList<>();
 
+    @CreationTimestamp
     @Column(name = "created_at")
-    @CreatedDate
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public enum Type {
         TEXT,
         IMAGE,
     }
+
+
 }

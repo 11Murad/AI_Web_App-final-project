@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/api/chat/image")
+@RequestMapping("v1/chat/image")
 @RequiredArgsConstructor
 public class ImageChatController {
     private final ImageChatService imageChatService;
@@ -20,14 +20,8 @@ public class ImageChatController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<ImageChatDTO>> getUserChats() {
-        List<ImageChatDTO> chats = imageChatService.getUserChats();
-        return ResponseEntity.ok(chats);
-    }
-
-    @GetMapping("/recent")
-    public ResponseEntity<List<ImageChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "10") int limit,
-                                                            @RequestParam(required = false, defaultValue = "0") int page) {
+    public ResponseEntity<List<ImageChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "10") int page,
+                                                             @RequestParam(required = false, defaultValue = "0") int limit) {
         List<ImageChatDTO> chats = imageChatService.getRecentChats(page,limit);
         return ResponseEntity.ok(chats);
     }

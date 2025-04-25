@@ -25,12 +25,6 @@ public class TextChatService {
         return TextChatMap.textChatToDTO(textChat);
     }
 
-    public List<TextChatDTO> getUserChats() {
-        User currentUser = authService.getCurrentUser();
-        List<TextChat> textChats = textChatRepository.findByUserOrderByCreatedAtDesc(currentUser);
-        return TextChatMap.toDTOList(textChats);
-    }
-
     public List<TextChatDTO> getRecentChats(int page , int limit) {
         User currentUser = authService.getCurrentUser();
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, "updatedAt"));
@@ -43,7 +37,7 @@ public class TextChatService {
 
     public TextChatDTO createChat(String prompt, String type) {
         User currentUser = authService.getCurrentUser();
-        String title = prompt.length() > 40 ? prompt.substring(0, 37) + "..." : prompt;
+        String title = prompt.length() > 37 ? prompt.substring(0, 33) + "..." : prompt;
 
         TextChat textChat = TextChat.builder()
                 .title(title)
@@ -62,39 +56,5 @@ public class TextChatService {
         }
         textChatRepository.deleteByIdAndUser(id, currentUser);
     }
-//
-//    public TextResponseDTO sendPrompt(Long chatId, TextPromptDTO textPromptDTO) {
-//        TextChat textChat = textChatRepository.findById(chatId)
-//                .orElseThrow(() -> new EntityNotFoundException("Chat not found with id: " + chatId));
-//
-//        // Create and save prompt
-//        TextPrompt textPrompt = TextPrompt.builder()
-//                .content(textPromptDTO.getContent())
-//                .textChat(textChat)
-//                .build();
-//
-//        TextPrompt savedTextPrompt = textPromptRepository.save(textPrompt);
-//
-//        // Generate response
-//        String responseContent = chatModel.call(textPromptDTO.getContent());
-//
-//        // Create and save response
-//        TextResponse textResponse = TextResponse.builder()
-//                .content(responseContent)
-//                .textPrompt(savedTextPrompt)
-//                .build();
-//
-//        TextResponse savedTextResponse = textResponseRepository.save(textResponse);
-//
-//        textChatRepository.save(textChat);
-//
-//        // Return response DTO
-//        return TextResponseDTO.builder()
-//                .id(savedTextResponse.getId())
-//                .content(savedTextResponse.getContent())
-//                .promptId(savedTextPrompt.getId())
-//                .build();
-
-//    }
 
 }

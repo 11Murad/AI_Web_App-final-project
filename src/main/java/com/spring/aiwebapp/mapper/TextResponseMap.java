@@ -9,6 +9,7 @@ public interface TextResponseMap {
                 .id(textResponse.getId())
                 .content(textResponse.getContent())
                 .promptId(textResponse.getTextPrompt().getId())
+                .chatId(textResponse.getTextPrompt().getTextChat().getId())
                 .build();
     }
 

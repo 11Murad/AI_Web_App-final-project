@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 @Table(name = "text_response")
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public class TextResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,7 @@ public class TextResponse {
     @JoinColumn(name = "text_prompt_id", nullable = false)
     private TextPrompt textPrompt;
 
-    @Column(name = "created_at")
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
 }

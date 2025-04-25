@@ -1,6 +1,6 @@
 package com.spring.aiwebapp.service;
 import com.spring.aiwebapp.DTO.request.AuthRequest;
-import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.request.UserRequestForRegister;
 import com.spring.aiwebapp.DTO.response.AuthResponse;
 import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserService userService;
+    private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
 
@@ -46,26 +49,25 @@ public class AuthService {
         }
     }
 
-    public AuthResponse register(UserRequest userRequest) {
-        UserDTO createdUser = userService.createUser(userRequest);
+    public AuthResponse register(UserRequestForRegister userRequestForRegister) {
+        UserDTO createdUser = userService.createUser(userRequestForRegister);
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            userRequest.getEmail(), // Email is used as the username for authentication
-                            userRequest.getPassword()
+                            userRequestForRegister.getEmail(), // Email is used as the username for authentication
+                            userRequestForRegister.getPassword()
                     )
             );
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            User user = (User) authentication.getPrincipal();
-            String jwt = jwtTokenUtil.generateToken(user);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(createdUser.getEmail());
+            String jwt = jwtTokenUtil.generateToken(userDetails);
 
             return AuthResponse.builder()
                     .token(jwt)
                     .userResponse(createdUser)
                     .build();
         } catch (AuthenticationException e) {
-            throw new IllegalArgumentException ("Registration successful but failed to authenticate");
+            throw new AuthenticationFailedException ("Registration successful but failed to authenticate");
         }
     }
 

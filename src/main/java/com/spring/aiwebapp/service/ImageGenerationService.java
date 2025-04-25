@@ -38,7 +38,7 @@ public class ImageGenerationService {
     public List<ImageResponseDTO> processImagePrompt(ImagePromptRequest request) {
         ImageChatDTO savedChat = imageChatService.createChat(request, TextChat.Type.IMAGE.name());
 
-        // 1. ImagePrompt yarat
+        // 1. ImagePrompt saxla
         ImagePromptDTO savedPrompt = ImagePromptService.savePrompt(request, savedChat.getId());
 
         // 2. AI-dan şəkilləri al
@@ -49,7 +49,4 @@ public class ImageGenerationService {
 
         return responses;
     }
-
-
-
 }

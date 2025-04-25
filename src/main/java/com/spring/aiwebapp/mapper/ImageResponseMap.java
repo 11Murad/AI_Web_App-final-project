@@ -1,9 +1,7 @@
 package com.spring.aiwebapp.mapper;
-
 import com.spring.aiwebapp.DTO.response.ImageResponseDTO;
 import com.spring.aiwebapp.entity.ImagePrompt;
 import com.spring.aiwebapp.entity.PictureResponse;
-
 import java.util.List;
 
 public interface ImageResponseMap {
@@ -12,6 +10,7 @@ public interface ImageResponseMap {
                 .id(pictureResponse.getId())
                 .url(pictureResponse.getUrl())
                 .promptId(pictureResponse.getImagePrompt().getId())
+                .chatId(pictureResponse.getImagePrompt().getImageChat().getId())
                 .build();
     }
 
@@ -26,5 +25,4 @@ public interface ImageResponseMap {
     static List<ImageResponseDTO> toDTOList(List<PictureResponse> responses) {
         return responses.stream().map(ImageResponseMap::toDTO).toList();
     }
-
 }

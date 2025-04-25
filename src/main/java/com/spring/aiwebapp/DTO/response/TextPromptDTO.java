@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 public class TextPromptDTO {
     private Long id;
 
-    @NotBlank(message = "Content is required")
     private String content;
+
     private TextResponseDTO response;
+
     private Long chatId;
 }

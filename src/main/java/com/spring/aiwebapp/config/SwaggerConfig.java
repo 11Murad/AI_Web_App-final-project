@@ -11,10 +11,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "REST API", version = "1.0",
+@OpenAPIDefinition(info = @Info(title = "REST API", version = "2.0",
         description = "REST API Documentation",
         contact = @Contact(name = "action")),
-        servers = @Server(url = "/"),
+        servers = @Server(url = "/", description = "Default Server URL") ,
         security = {@SecurityRequirement(name = "bearerToken")})
 @SecuritySchemes({
         @SecurityScheme(name = "bearerToken", type = SecuritySchemeType.HTTP,

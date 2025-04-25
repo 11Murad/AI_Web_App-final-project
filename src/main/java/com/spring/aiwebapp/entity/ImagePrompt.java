@@ -1,7 +1,7 @@
 package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,8 +34,8 @@ public class ImagePrompt {
     @OneToMany(mappedBy = "imagePrompt", cascade = CascadeType.ALL)
     private List<PictureResponse> responses;
 
-    @Column(name = "created_at")
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createdAt;
+
 }
 

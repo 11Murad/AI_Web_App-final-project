@@ -1,5 +1,5 @@
 package com.spring.aiwebapp.service;
-import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.request.UserRequestForRegister;
 import com.spring.aiwebapp.DTO.request.UserRequestForUpdate;
 import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
@@ -18,6 +18,18 @@ public class UserService  {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
+    public UserDTO createUser(UserRequestForRegister userRequestForRegister) {
+        if (userRepository.existsByEmail(userRequestForRegister.getEmail())) throw
+                new UserAlreadyExistsException("User already exists with email: " + userRequestForRegister.getEmail());
+
+        User user = UserMapper.toEntity(userRequestForRegister);
+        user.setPassword(passwordEncoder.encode(userRequestForRegister.getPassword()));
+
+        User savedUser = userRepository.save(user);
+        return UserMapper.toUserDTO(savedUser);
+    }
+
+    @Transactional
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
@@ -29,18 +41,6 @@ public class UserService  {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
         return UserMapper.toUserDTO(user);
-    }
-
-    @Transactional
-    public UserDTO createUser(UserRequest userRequest) {
-        if (userRepository.existsByEmail(userRequest.getEmail())) throw
-                new UserAlreadyExistsException("User already exists with email: " + userRequest.getEmail());
-
-        User user = UserMapper.toEntity(userRequest);
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-
-        User savedUser = userRepository.save(user);
-        return UserMapper.toUserDTO(savedUser);
     }
 
     @Transactional

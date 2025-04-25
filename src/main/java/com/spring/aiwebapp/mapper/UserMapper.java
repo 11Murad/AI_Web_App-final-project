@@ -1,5 +1,5 @@
 package com.spring.aiwebapp.mapper;
-import com.spring.aiwebapp.DTO.request.UserRequest;
+import com.spring.aiwebapp.DTO.request.UserRequestForRegister;
 import com.spring.aiwebapp.DTO.response.UserDTO;
 import com.spring.aiwebapp.entity.User;
 import java.util.List;
@@ -13,12 +13,12 @@ public interface UserMapper {
                 .email(user.getEmail())
                 .build();
     }
-    static User toEntity(UserRequest userRequest) {
+    static User toEntity(UserRequestForRegister userRequestForRegister) {
         return User.builder()
-                .firstName(userRequest.getFirstName())
-                .lastName(userRequest.getLastName())
-                .email(userRequest.getEmail())
-                .password(userRequest.getPassword())
+                .firstName(userRequestForRegister.getFirstName())
+                .lastName(userRequestForRegister.getLastName())
+                .email(userRequestForRegister.getEmail())
+                .password(userRequestForRegister.getPassword())
                 .build();
     }
 

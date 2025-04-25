@@ -11,6 +11,10 @@ import lombok.NoArgsConstructor;
 public class TextResponseDTO {
 
     private Long id;
+
     private String content;
+
     private Long promptId;
+
+    private Long chatId;
 }

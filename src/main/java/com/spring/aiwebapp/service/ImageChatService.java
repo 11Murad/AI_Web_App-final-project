@@ -18,8 +18,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ImageChatService {
 
-    private final ImageChatRepository imageChatRepository;
     private final AuthService authService;
+    private final ImageChatRepository imageChatRepository;
+    private final ImagePromptRepository imagePromptRepository;
 
     public ImageChatDTO getChatById(Long id) {
         User currentUser = authService.getCurrentUser();
@@ -27,12 +28,6 @@ public class ImageChatService {
                 orElseThrow(() -> new ResourceNotFoundException("Chat not found with id: " + id));
 
         return ImageChatMap.toDTO(imageChat);
-    }
-
-    public List<ImageChatDTO> getUserChats() {
-        User currentUser = authService.getCurrentUser();
-        List<ImageChat> imageChats = imageChatRepository.findByUserOrderByCreatedAtDesc(currentUser);
-        return ImageChatMap.toDTOList(imageChats);
     }
 
     public List<ImageChatDTO> getRecentChats(int page , int limit) {
@@ -45,7 +40,7 @@ public class ImageChatService {
 
     public ImageChatDTO createChat(ImagePromptRequest request, String type) {
         User currentUser = authService.getCurrentUser();
-        String title = request.getPrompt().length() > 40 ? request.getPrompt().substring(0, 37) + "..." : request.getPrompt();
+        String title = request.getPrompt().length() > 37 ? request.getPrompt().substring(0, 33) + "..." : request.getPrompt();
 
         ImageChat chat = ImageChat.builder()
                 .title(title)
@@ -66,8 +61,4 @@ public class ImageChatService {
         imageChatRepository.deleteByIdAndUser(id, currentUser);
     }
 
-    public List<ImageChatDTO> getChatByPromptId(ImagePrompt pr) {
-        List<ImageChat> imageChats = imageChatRepository.findByImagePrompts(pr);
-        return ImageChatMap.toDTOList(imageChats);
-    }
 }

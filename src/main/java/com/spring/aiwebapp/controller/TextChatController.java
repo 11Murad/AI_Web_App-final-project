@@ -7,9 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("v1/api/chat/text")
+@RequestMapping("v1/chat/text")
 @RequiredArgsConstructor
 public class TextChatController {
     private final TextChatService textChatService;
@@ -21,12 +20,6 @@ public class TextChatController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<TextChatDTO>> getUserChats() {
-        List<TextChatDTO> chats = textChatService.getUserChats();
-        return ResponseEntity.ok(chats);
-    }
-
-    @GetMapping("/recent")
     public ResponseEntity<List<TextChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "10") int limit,
                                                             @RequestParam(required = false, defaultValue = "0") int page) {
         List<TextChatDTO> chats = textChatService.getRecentChats(page,limit);
