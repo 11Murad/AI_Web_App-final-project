@@ -22,7 +22,6 @@ public class ImagePrompt {
     @Column(nullable = false,columnDefinition = "TEXT")
     private String prompt;
 
-    private String quality;
     private int n ;
     private int height;
     private int width;

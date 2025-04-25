@@ -20,8 +20,8 @@ public class TextChatController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<TextChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "10") int limit,
-                                                            @RequestParam(required = false, defaultValue = "0") int page) {
+    public ResponseEntity<List<TextChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "0") int page,
+                                                            @RequestParam(required = false, defaultValue = "10") int limit) {
         List<TextChatDTO> chats = textChatService.getRecentChats(page,limit);
         return ResponseEntity.ok(chats);
     }

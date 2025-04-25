@@ -20,8 +20,8 @@ public class ImageChatController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<ImageChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "10") int page,
-                                                             @RequestParam(required = false, defaultValue = "0") int limit) {
+    public ResponseEntity<List<ImageChatDTO>> getRecentChats(@RequestParam(required = false, defaultValue = "0") int page,
+                                                             @RequestParam(required = false, defaultValue = "10") int limit) {
         List<ImageChatDTO> chats = imageChatService.getRecentChats(page,limit);
         return ResponseEntity.ok(chats);
     }

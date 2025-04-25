@@ -25,7 +25,6 @@ public class ImageGenerationService {
         ImageResponse response = imageClient.call(
                 new ImagePrompt(request.getPrompt(),
                         OpenAiImageOptions.builder().withModel("dall-e-2")
-                                .withQuality(request.getQuality())
                                 .withN(request.getN())
                                 .withHeight(request.getHeight())
                                 .withWidth(request.getWidth())
@@ -45,7 +44,8 @@ public class ImageGenerationService {
         List<String> imageUrls = generateImageByAI(request);
 
         // 3. Response-ları saxla
-        List<ImageResponseDTO> responses = responseService.saveResponses(imageUrls, savedPrompt.getId());
+        List<ImageResponseDTO> responses =
+                responseService.saveResponses(imageUrls, savedPrompt.getId());
 
         return responses;
     }

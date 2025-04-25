@@ -12,8 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 public class ImagePromptDTO {
     private Long id;
+    
     @NotBlank(message = "Prompt is required")
     private String prompt;
+    private int n;
+    private int height;
+    private int width;
+
     private List<ImageResponseDTO> response;
-    private Long imageChatId;
 }

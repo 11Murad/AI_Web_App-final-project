@@ -8,8 +8,8 @@ public interface TextPromptMap {
         return TextPromptDTO.builder()
                 .id(textPrompt.getId())
                 .content(textPrompt.getContent())
-                .chatId(textPrompt.getTextChat().getId())
-                .response(textPrompt.getTextResponse() != null ? TextResponseMap.toDTO(textPrompt.getTextResponse()) : null)
+                .response(textPrompt.getTextResponse() != null ?
+                        TextResponseMap.toDTO(textPrompt.getTextResponse()) : null)
                 .build();
     }
 

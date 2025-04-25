@@ -15,6 +15,4 @@ public class TextPromptDTO {
     private String content;
 
     private TextResponseDTO response;
-
-    private Long chatId;
 }

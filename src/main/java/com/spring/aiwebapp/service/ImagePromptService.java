@@ -27,7 +27,7 @@ public class ImagePromptService {
         ImagePrompt imagePrompt = ImagePrompt.builder()
                 .imageChat(imageChat)
                 .prompt(request.getPrompt())
-                .n(request.getN()).quality(request.getQuality()).width(request.getWidth()).height(request.getHeight())
+                .n(request.getN()).width(request.getWidth()).height(request.getHeight())
                 .build();
         return ImagePromptMap.toDTO(imagePromptRepository.save(imagePrompt));
     }
