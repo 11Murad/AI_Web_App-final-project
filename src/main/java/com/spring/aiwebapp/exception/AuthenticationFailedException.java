@@ -6,7 +6,4 @@ public class AuthenticationFailedException extends RuntimeException {
         super(message);
     }
     
-    public AuthenticationFailedException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

@@ -3,14 +3,14 @@ package com.spring.aiwebapp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,15 +36,25 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<Role> roles = new HashSet<>();
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<TextChat> textChats;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    private List<ImageChat> imageChats;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.name()))
+                .toList();
     }
 
     @Override
@@ -52,5 +62,9 @@ public class User implements UserDetails {
         return email;
     }
 
+    public enum Role {
+        ROLE_USER,
+        ROLE_ADMIN
+    }
 
 }
