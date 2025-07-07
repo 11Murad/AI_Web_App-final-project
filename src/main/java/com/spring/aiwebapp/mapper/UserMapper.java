@@ -22,7 +22,4 @@ public interface UserMapper {
                 .build();
     }
 
-    static List<UserDTO> toDTOList(List<User> users) {
-        return users.stream().map(UserMapper::toUserDTO).toList();
-    }
 }
